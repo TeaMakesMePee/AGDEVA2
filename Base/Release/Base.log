@@ -1,0 +1,63 @@
+﻿  Application.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\application.h(5): fatal error C1083: Cannot open include file: 'irrKlang.h': No such file or directory
+  CameraEffects.cpp
+  Enemy3D.cpp
+  EntityManager.cpp
+  FPSCamera.cpp
+  FrustumCulling.cpp
+  Plane.cpp
+  GenericEntity.cpp
+  GroundEntity.cpp
+  Controller.cpp
+  Keyboard.cpp
+  Mouse.cpp
+  LevelOfDetails.cpp
+  Light.cpp
+  main.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\application.h(5): fatal error C1083: Cannot open include file: 'irrKlang.h': No such file or directory
+  Minimap.cpp
+  OBJMesh.cpp
+  Performance.cpp
+  PlayerInfo.cpp
+  Grenade.cpp
+  Compiling...
+  Laser.cpp
+  Projectile.cpp
+  Animation.cpp
+  Enemy.cpp
+  Goodies.cpp
+  GoodiesFactory.cpp
+  Map.cpp
+  PlayerInfo2D.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\soundengine.h(4): fatal error C1083: Cannot open include file: 'irrKlang.h': No such file or directory
+  Scene2D.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\application.h(5): fatal error C1083: Cannot open include file: 'irrKlang.h': No such file or directory
+  Strategy.cpp
+  Strategy_Kill.cpp
+  TreasureChest.cpp
+  SceneGraph.cpp
+  SceneNode.cpp
+  Transform.cpp
+  UpdateTransformation.cpp
+  SceneText.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\application.h(5): fatal error C1083: Cannot open include file: 'irrKlang.h': No such file or directory
+  SkyBoxEntity.cpp
+  SoundEngine.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\soundengine.h(4): fatal error C1083: Cannot open include file: 'irrKlang.h': No such file or directory
+  Grid.cpp
+  Compiling...
+  SpatialPartition.cpp
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(23): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(24): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(42): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(43): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(107): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(108): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\nyp_framework_week07_solution\base\source\spatialpartition\spatialpartition.cpp(234): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  SpriteEntity.cpp
+  TextEntity.cpp
+  GrenadeThrow.cpp
+  LaserBlaster.cpp
+  Pistol.cpp
+  RPG.cpp
+  WeaponInfo.cpp
