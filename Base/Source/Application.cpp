@@ -123,6 +123,8 @@ void Application::Init()
 
 	float m_window_posX = CLuaManager::GetInstance()->get<float>("WindowInfo.position.x");
 	float m_window_posY = CLuaManager::GetInstance()->get<float>("WindowInfo.position.y");
+
+	Vector3 playerDirection = CLuaManager::GetInstance()->get<Vector3>("PlayerInfo.direction");
 	string m_sCallsign = CLuaManager::GetInstance()->get<string>("PlayerInfo.callsign");
 	int hp = CLuaManager::GetInstance()->get<int>("PlayerInfo.HP");
 
@@ -158,6 +160,21 @@ void Application::Init()
 		std::cout << *it << ",";
 	}
 	std::cout << std::endl;
+
+	float distanceSquare = CLuaManager::GetInstance()->getDistanceSquareValue("CalculateDistanceSquare",
+																				Vector3(0, 0, 0),
+																				Vector3(10, 10, 10));
+	cout << "distanceSquare : " << distanceSquare << endl;
+
+	float a = 1.0f, b = 2.0f, c = 3.0f, d = 4.0f;
+	int minValue = -1, maxValue = -1, avgValue = -1, numValues = 0;
+	CLuaManager::GetInstance()->getVariableValues("GetMinMax",
+		minValue, maxValue, avgValue, numValues,
+		4, a, b, c, d);
+	cout << "minValue : " << minValue <<
+		", maxValue : " << maxValue <<
+		", avgValue : " << avgValue <<
+		", numValues : " << numValues << endl;
 
 	//CLuaManager::GetInstance()->set("volumeLevel", 123);
 

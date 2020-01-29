@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SingletonTemplate.h"
+#include "Vector3.h"
 // Lua's headers
 #include "../Lua/lua.hpp"
 #include <stdio.h>
@@ -36,6 +37,12 @@ public:
 	void getStringVector(const std::string& name, std::vector<string>& keys, std::vector<int>& values);
 	// Get a table of keys
 	vector<string> getTableKeys(const string& name);
+	// Get distance square value through the Lua Interface Class
+	float getDistanceSquareValue(const char* variableName, Vector3 source, Vector3 destination);
+	// Get variable number of values through the Lua Interface Class
+	bool getVariableValues(const char* variableName,
+		int& minValue, int& maxValue, int& avgValue, int& numValues,
+		const int varCount, ...);
 
 	// Clean the Lua State
 	inline void clean(void);
@@ -178,6 +185,30 @@ inline std::string CLuaManager::lua_get<std::string>(const std::string& variable
 		printError(variableName, "Not a string");
 	}
 	return s;
+}
+
+// Get Vector3 values through the Lua Manager Class
+template <>
+inline Vector3 CLuaManager::lua_get<Vector3>(const std::string& variableName)
+{
+	Vector3 aVector(0.0f, 0.0f, 0.0f);
+	if (lua_istable(pLuaState, -1)) {
+		lua_rawgeti(pLuaState, -1, 1);
+		float x = lua_tonumber(pLuaState, -1);
+		lua_pop(pLuaState, 1);
+		lua_rawgeti(pLuaState, -1, 2);
+		float y = lua_tonumber(pLuaState, -1);
+		lua_pop(pLuaState, 1);
+		lua_rawgeti(pLuaState, -1, 3);
+		float z = lua_tonumber(pLuaState, -1);
+		lua_pop(pLuaState, 1);
+
+		aVector.Set(x, y, z);
+	}
+	else {
+		printError(variableName, "Not a Vector3");
+	}
+	return aVector;
 }
 
 template<>

@@ -1,0 +1,8 @@
+*.idb
+/.vs
+base/debug
+base/release
+common/debug
+common/release
+*.tlog
+*.pdb

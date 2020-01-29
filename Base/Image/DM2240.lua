@@ -16,6 +16,7 @@ PlayerInfo = {
 	position = {
 		x = 32.5, y = 20.0
 	},
+	direction = {0, 10.0, 20.0},
 	callsign = "DaNoob",
 	HP = 300
 }

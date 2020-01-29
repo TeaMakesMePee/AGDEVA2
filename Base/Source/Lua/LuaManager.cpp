@@ -1,6 +1,7 @@
 #include "LuaManager.h"
 #include <iostream>
 #include <fstream>
+#include <stdarg.h>
 
 // Constructor
 CLuaManager::CLuaManager(void)
@@ -251,6 +252,65 @@ std::vector<std::string> CLuaManager::getTableKeys(const std::string& name)
 	clean();
 	// Return the string containing the keys
 	return strings;
+}
+
+float CLuaManager::getDistanceSquareValue(const char * variableName, Vector3 source, Vector3 destination)
+{
+	if (!pWriteLuaState) {
+		printError(variableName, "Script is not loaded");
+		return -1.0f;
+	}
+
+	lua_getglobal(pWriteLuaState, variableName);
+	lua_pushnumber(pWriteLuaState, source.x);
+	lua_pushnumber(pWriteLuaState, source.y);
+	lua_pushnumber(pWriteLuaState, source.z);
+	lua_pushnumber(pWriteLuaState, destination.x);
+	lua_pushnumber(pWriteLuaState, destination.y);
+	lua_pushnumber(pWriteLuaState, destination.z);
+
+	// Do a Lua call with debugging information returned.
+	float distanceSquare = -1.0f;
+	if (lua_pcall(pWriteLuaState, 6, 1, 0) != 0)
+		std::cout << "Unable to call " << variableName << " : " << std::endl;
+	else
+		distanceSquare = (float)lua_tonumber(pWriteLuaState, -1);
+
+	// Clean the stack
+	clean();
+
+	return distanceSquare;
+}
+
+bool CLuaManager::getVariableValues(const char * variableName, int & minValue, int & maxValue, int & avgValue, int & numValues, const int varCount, ...)
+{
+	lua_getglobal(pWriteLuaState, variableName);
+
+	double fVariable;
+	va_list paramList;
+	va_start(paramList, varCount);
+	for (int i = 0; i < varCount; i++)
+	{
+		fVariable = va_arg(paramList, double);
+		lua_pushnumber(pWriteLuaState, fVariable);
+	}
+	va_end(paramList);
+
+	lua_pcall(pWriteLuaState, varCount, 4, 0);
+
+	numValues = lua_tonumber(pWriteLuaState, -1);
+	lua_pop(pWriteLuaState, 1);
+	avgValue = lua_tonumber(pWriteLuaState, -1);
+	lua_pop(pWriteLuaState, 1);
+	maxValue = lua_tonumber(pWriteLuaState, -1);
+	lua_pop(pWriteLuaState, 1);
+	minValue = lua_tonumber(pWriteLuaState, -1);
+	lua_pop(pWriteLuaState, 1);
+
+	// Clean the stack
+	clean();
+
+	return true;
 }
 
 // Clean the Lua State
