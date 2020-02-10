@@ -29,6 +29,8 @@
 #include "FrustumCulling/FrustumCulling.h"
 #include "Performance/Performance.h"
 
+#include "Lua/LuaManager.h"
+
 #include <iostream>
 using namespace std;
 
@@ -446,7 +448,7 @@ void SceneText::Init()
 	CSpatialPartition::GetInstance()->SetMeshRenderMode(CGrid::FILL);
 	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH", "GRIDMESH2", "GRIDMESH3");
 	CSpatialPartition::GetInstance()->SetCamera(&camera);
-	CSpatialPartition::GetInstance()->SetLevelOfDetails(10000.f, 70000.f);
+	CSpatialPartition::GetInstance()->SetLevelOfDetails(CLuaManager::GetInstance()->get<float>("LOD.Detail.HighMid"), CLuaManager::GetInstance()->get<float>("LOD.Detail.MidLow"));
 
 	CFrustumCulling::GetInstance()->Init(45.f, 4.f / 3.f, 0.1f, 10000.f);
 
@@ -528,6 +530,7 @@ void SceneText::Init()
 
 void SceneText::Update(double dt)
 {
+	CLuaManager::GetInstance()->CheckIfLuaFileWasEdited();
 	// Update our entities
 	EntityManager::GetInstance()->Update(dt);
 	//CSceneGraph::GetInstance()->ReCalc_AABB();

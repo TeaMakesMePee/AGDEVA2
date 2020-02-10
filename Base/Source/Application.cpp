@@ -111,7 +111,7 @@ void Application::Init()
 	// Opens and checks for lua files
 	// First file is to read from it
 	// Second file is to write to it
-	if (CLuaManager::GetInstance()->Init("Image//DM2240.lua", "Image//DM2240_LuaFunctions.lua", true) == false)
+	if (CLuaManager::GetInstance()->Init("Image//DM2240.lua", "Image//DM2240_LuaFunctions.lua", "Image//errorLookup.lua", true) == false)
 	{
 		cout << "Unable to initialise the Lua system. Quitting the program now." << endl;
 		return;

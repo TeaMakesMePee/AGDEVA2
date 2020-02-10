@@ -1,7 +1,6 @@
 #pragma once
 
 #include "SingletonTemplate.h"
-#include "Vector3.h"
 // Lua's headers
 #include "../Lua/lua.hpp"
 #include <stdio.h>
@@ -9,11 +8,28 @@
 #include <vector>
 #include <iostream>
 
+#include "Vector3.h"
+
 using namespace std;
+
+struct Edittables {
+	Edittables(string filepath1, string vartype1) : filepath(filepath1), vartype(vartype1) { }
+
+	int *intvar;
+	double *doublevar;
+	float *floatvar;
+	string *stringvar, filepath, vartype;
+	bool *boolvar;
+	Vector3 *Vector3var;
+};
 
 class CLuaManager : public Singleton<CLuaManager>
 {
 public:
+	//List of edditables for runtime purpose
+	std::vector<Edittables*> edittableList;
+	void EditEdittables();
+
 	// Constructor
 	CLuaManager(void);
 
@@ -23,7 +39,10 @@ public:
 	// Initialise this class instance
 	bool Init(void);
 	// Initialise this class instance - overloaded
-	bool Init(const string& filename, const std::string& Writefilename, const bool bDisplayFileContent = false);
+	bool Init(const string& filename,
+		const std::string& Writefilename,
+		const std::string& Errorfilename,
+		const bool bDisplayFileContent = false);
 	// Destroy this class instance
 	void Destroy(void);
 	// PrintSelf
@@ -43,6 +62,8 @@ public:
 	bool getVariableValues(const char* variableName,
 		int& minValue, int& maxValue, int& avgValue, int& numValues,
 		const int varCount, ...);
+	// Get error message using an error code
+	void error(const char *errorCode);
 
 	// Clean the Lua State
 	inline void clean(void);
@@ -61,12 +82,10 @@ public:
 		if (lua_gettostack(variableName))
 		{
 			// variable succesfully on top of stack
-			/* ADD CODES HERE */
 			result = lua_get<T>(variableName);
 		}
-		else 
+		else
 		{
-			/* ADD CODES HERE */
 			result = lua_getdefault<T>();
 		}
 
@@ -91,7 +110,10 @@ public:
 
 	// Generic set method
 	template<typename T>
-	bool set(const std::string& variableName, const T value, const bool bOverwrite = true)
+	bool set(const std::string& variableName,
+		const T value,
+		const bool bOverwrite = true,
+		const bool bUpdate = false)
 	{
 		if (!pLuaState) {
 			printError(variableName, "Script is not loaded");
@@ -103,8 +125,7 @@ public:
 		if (bOverwrite)
 		{
 			// variable succesfully on top of stack
-			/* ADD CODES HERE */
-			result = lua_set<T>(variableName, value, bOverwrite);
+			result = lua_set<T>(variableName, value, bOverwrite, bUpdate);
 		}
 		else
 		{
@@ -112,8 +133,7 @@ public:
 			if (lua_gettostack(variableName))
 			{
 				// variable succesfully on top of stack
-				/* ADD CODES HERE */
-				result = lua_set<T>(variableName, value, bOverwrite);
+				result = lua_set<T>(variableName, value, bOverwrite, bUpdate);
 			}
 		}
 
@@ -123,7 +143,7 @@ public:
 
 	// Generic set. This is a Template
 	template<typename T>
-	bool lua_set(const std::string& variableName, const T value, const bool bOverwrite = true) {
+	bool lua_set(const std::string& variableName, const T value, const bool bOverwrite = true, const bool bUpdate = false) {
 		return false;
 	}
 
@@ -132,6 +152,11 @@ public:
 	T lua_setdefault() {
 		return false;
 	}
+
+	void CheckIfLuaFileWasEdited();
+
+	bool updateNeeded;
+	string file;
 
 protected:
 	// Check if the Lua State is valid
@@ -143,6 +168,8 @@ protected:
 	lua_State* pLuaState;
 	// Lua State for Writing Out
 	lua_State* pWriteLuaState;
+	// Lua State for Error Handling
+	lua_State *pErrorState;
 	std::string filename;
 	int level;
 };
@@ -191,7 +218,7 @@ inline std::string CLuaManager::lua_get<std::string>(const std::string& variable
 template <>
 inline Vector3 CLuaManager::lua_get<Vector3>(const std::string& variableName)
 {
-	Vector3 aVector(0.0f, 0.0f, 0.0f);
+	Vector3 aVector(-777.7f, -888.888f, -999.9f);
 	if (lua_istable(pLuaState, -1)) {
 		lua_rawgeti(pLuaState, -1, 1);
 		float x = lua_tonumber(pLuaState, -1);
@@ -221,7 +248,10 @@ inline std::string CLuaManager::lua_getdefault<std::string>()
 // Helper template methods for SET
 /********************************************************************************/
 template <>
-inline bool CLuaManager::lua_set<bool>(const std::string& variableName, const bool bValue, const bool bOverwrite)
+inline bool CLuaManager::lua_set<bool>(const std::string& variableName,
+	const bool bValue,
+	const bool bOverwrite,
+	const bool bUpdate)
 {
 	lua_getglobal(pWriteLuaState, "SetToLuaFile");
 	char outputString[80];
@@ -238,7 +268,10 @@ inline bool CLuaManager::lua_set<bool>(const std::string& variableName, const bo
 }
 
 template <>
-inline bool CLuaManager::lua_set<float>(const std::string& variableName, const float fValue, const bool bOverwrite)
+inline bool CLuaManager::lua_set<float>(const std::string& variableName,
+	const float fValue,
+	const bool bOverwrite,
+	const bool bUpdate)
 {
 	lua_getglobal(pWriteLuaState, "SetToLuaFile");
 	char outputString[80];
@@ -255,24 +288,57 @@ inline bool CLuaManager::lua_set<float>(const std::string& variableName, const f
 }
 
 template <>
-inline bool CLuaManager::lua_set<int>(const std::string& variableName, const int iValue, const bool bOverwrite)
+inline bool CLuaManager::lua_set<int>(const std::string& variableName,
+	const int iValue,
+	const bool bOverwrite,
+	const bool bUpdate)
 {
 	lua_getglobal(pWriteLuaState, "SetToLuaFile");
 	char outputString[80];
 	sprintf(outputString, "%s = %d", variableName.c_str(), iValue);
 	lua_pushstring(pWriteLuaState, outputString);
-	lua_pushinteger(pWriteLuaState, bOverwrite);
+
+	if (bUpdate == true)
+	{
+		// 	Push bOverwrite == 2 into the Lua State since we are overwriting a value
+		lua_pushinteger(pWriteLuaState, 2);
+
+		char stringToReplace[80];
+		sprintf(stringToReplace, "%s = %d",
+			variableName.c_str(),
+			CLuaManager::GetInstance()->get<int>(variableName));
+		lua_pushfstring(pWriteLuaState, stringToReplace);
+
+		// Do a Lua call with debugging info returned
+		if (lua_pcall(pWriteLuaState, 3, 0, 0) != 0)
+			std::cout << "Unable to save to Lua File:" << lua_tostring(pWriteLuaState, -1) << std::endl;
+		else
+			std::cout << "Saved to Lua File:" << outputString << std::endl;
+	}
+	else
+	{
+		lua_pushinteger(pWriteLuaState, bOverwrite);
+
+		if (lua_pcall(pWriteLuaState, 2, 0, 0) != 0)
+			std::cout << "Unable to save to Lua File:" << lua_tostring(pWriteLuaState, -1) << std::endl;
+	}
+
+	/*
 	// Do a Lua call
 	// lua_call(pWriteLuaState, 2, 0);
 	// Do a Lua call with debugging information returned.
 	if (lua_pcall(pWriteLuaState, 2, 0, 0) != 0)
 		std::cout << "Unable to save to Lua file : " << lua_tostring(pWriteLuaState, -1) << std::endl;
+	*/
 
 	return true;
 }
 
 template <>
-inline bool CLuaManager::lua_set<std::string>(const std::string& variableName, const std::string sValue, const bool bOverwrite)
+inline bool CLuaManager::lua_set<std::string>(const std::string& variableName,
+	const std::string sValue,
+	const bool bOverwrite,
+	const bool bUpdate)
 {
 	lua_getglobal(pWriteLuaState, "SetToLuaFile");
 	char outputString[80];

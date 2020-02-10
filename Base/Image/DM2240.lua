@@ -21,6 +21,13 @@ PlayerInfo = {
 	HP = 300
 }
 
+--LOD
+LOD = {
+	Detail = {
+		HighMid = 10000, MidLow = 70000
+	}
+}
+
 -- Array
 Array = {1, 2, 3, 4, 5}
 
@@ -34,3 +41,12 @@ HighScore = {
 
 -- Volume Control
 volumeLevel = 100
+
+-- Way points
+WayPoints = {
+	Enemy_1 = {
+		A = {5.0, 0.0, 5.0},
+		B = {5.0, 0.0, 0.0},
+		C = {0.0, 0.0, 5.0}
+	}
+}

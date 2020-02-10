@@ -3,10 +3,42 @@
 #include <fstream>
 #include <stdarg.h>
 
+void CLuaManager::EditEdittables()
+{
+	for (int x = 0; x < edittableList.size(); ++x)
+	{
+		if (edittableList[x]->vartype == "int")
+		{
+			*edittableList[x]->intvar = get<int>(edittableList[x]->filepath);
+		}
+		else if (edittableList[x]->vartype == "double")
+		{
+			*edittableList[x]->doublevar = get<double>(edittableList[x]->filepath);
+		}
+		else if (edittableList[x]->vartype == "float")
+		{
+			*edittableList[x]->floatvar = get<float>(edittableList[x]->filepath);
+		}
+		else if (edittableList[x]->vartype == "bool")
+		{
+			*edittableList[x]->boolvar = get<bool>(edittableList[x]->filepath);
+		}
+		else if (edittableList[x]->vartype == "string")
+		{
+			*edittableList[x]->stringvar = get<string>(edittableList[x]->filepath);
+		}
+		else if (edittableList[x]->vartype == "Vector3")
+		{
+			*edittableList[x]->Vector3var = get<Vector3>(edittableList[x]->filepath);
+		}
+	}
+}
+
 // Constructor
 CLuaManager::CLuaManager(void)
 	: pLuaState(NULL)
 	, pWriteLuaState(NULL)
+	, pErrorState(NULL)
 {
 	Init();
 }
@@ -32,12 +64,21 @@ bool CLuaManager::Init(void)
 	if (pWriteLuaState)
 		return true;
 
+	if (pErrorState == NULL)
+	{
+		pErrorState = lua_open();
+	}
+
+	if (pErrorState)
+		return true;
+
 	return true;
 }
 
 // Initialise this class instance - overloaded
 bool CLuaManager::Init(	const std::string& filename, 
 						const std::string& Writefilename, 
+						const std::string& Errorfilename,
 						const bool bDisplayFileContent)
 {
 	// Check if the Lua State is valid.
@@ -98,6 +139,39 @@ bool CLuaManager::Init(	const std::string& filename,
 		string STRING;
 		ifstream infile;
 		infile.open(Writefilename.c_str());
+		while (!infile.eof()) // To get you all the lines.
+		{
+			getline(infile, STRING); // Saves the line in STRING.
+			cout << STRING << endl; // Prints our STRING.
+		}
+		infile.close();
+	}
+
+	// Check if the Lua State is valid.
+	// Open the Lua State if not
+	if (pErrorState == NULL)
+	{
+		//pWriteLuaState = lua_open();
+		pErrorState = luaL_newstate();
+	}
+
+	if (pErrorState)
+		luaL_openlibs(pErrorState);
+
+	// Open the Lua file and create the Lua State
+	// Return false if unable to open the Lua file
+	if (luaL_loadfile(pErrorState, Errorfilename.c_str()) || lua_pcall(pErrorState, 0, 0, 0)) {
+		cout << "Error: script not loaded (" << Errorfilename << ")" << endl;
+		pErrorState = NULL;
+		return false;
+	}
+
+	// Display the file contents for debugging purposes
+	if (bDisplayFileContent)
+	{
+		string STRING;
+		ifstream infile;
+		infile.open(Errorfilename.c_str());
 		while (!infile.eof()) // To get you all the lines.
 		{
 			getline(infile, STRING); // Saves the line in STRING.
@@ -382,6 +456,42 @@ bool CLuaManager::lua_gettostack(const string& variableName)
 	}
 
 	return true;
+}
+
+void CLuaManager::error(const char * errorCode)
+{
+	if (pErrorState == NULL)
+		return;
+
+	lua_getglobal(pErrorState, errorCode);
+	const char *errorMsg = lua_tostring(pErrorState, -1);
+	if (errorMsg != NULL)
+		cout << errorCode << " : " << errorMsg << endl << "*** Please contact the developer ***" << endl;
+	else
+		cout << errorCode << " is not valid.\n*** Please contact the developer ***" << endl;
+}
+
+void CLuaManager::CheckIfLuaFileWasEdited()
+{
+	updateNeeded = false;
+	string STRING, string2;
+	ifstream infile;
+	string filename = "Image//DM2240.lua";
+	infile.open(filename.c_str());
+	while (!infile.eof()) // To get you all the lines.
+	{
+		getline(infile, STRING); // Saves the line in STRING.
+		string2 += STRING;
+		cout << STRING << endl; // Prints our STRING.
+	}
+	infile.close();
+
+	if (file != string2)
+	{
+		file = string2;
+		//updateNeeded = true;
+		EditEdittables();
+	}
 }
 
 // Check if the Lua State is valid

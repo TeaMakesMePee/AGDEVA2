@@ -1,16 +1,34 @@
 -- SetToLuaFile
-function SetToLuaFile(outputString, overwrite)
+function SetToLuaFile(outputString, overwrite, stringToReplace)
    --File
    local f;
-   --Wipe the contents with new data.
-   if overwrite == 1 then
+   --Overwrite old data with new data.
+   if overwrite == 2 then
+      --Open the Lua file in Read mode
+      f = assert(io.open("Image//DM2240.lua", "r"))
+      --Read in the entire content
+      local fileContent = f:read("*all")
+      --Close the Lua file which was open in Read mode
+      f:close()
+
+      --Replace the content
+      fileContent = string.gsub(fileContent, stringToReplace, outputString)
+
+      --Open the Lua file in Write mode
       f = assert(io.open("Image//DM2240.lua", "w"))
+      --Write the new content into the file
+      f:write(fileContent)
+   --Wipe the contents with new data.
+   elseif overwrite == 1 then
+      f = assert(io.open("Image//DM2240.lua", "w"))
+      --Write to the file.
+      f:write(outputString)
    --Append with new data.
    elseif overwrite == 0 then
       f = assert(io.open("Image//DM2240.lua", "a"))
+      --Write to the file.
+      f:write(outputString)
    end
-   --Write to the file.
-   f:write(outputString)
    --Close the file.
    f:close()
 end

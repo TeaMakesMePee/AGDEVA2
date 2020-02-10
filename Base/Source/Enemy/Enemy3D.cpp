@@ -4,6 +4,7 @@
 #include "RenderHelper.h"
 #include "MeshBuilder.h"
 #include "../Performance/Performance.h"
+#include "../Lua//LuaManager.h"
 
 CEnemy3D::CEnemy3D(Mesh* _modelMesh)
 	: GenericEntity(NULL)
@@ -34,10 +35,38 @@ void CEnemy3D::Init(void)
 	//init cwaypointmanager
 	cWaypointManager.Init();
 
-	//add in some test waypoints
-	int m_iWayPointID = cWaypointManager.AddWaypoint(Vector3(position.x, position.y, position.z));
-	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, Vector3(position.x + 50.f, position.y, position.z));
-	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, Vector3(position.x, position.y, position.z + 50.f));
+	Vector3 aWayPoint_A(0.0f, 0.0f, 0.0f);
+	Vector3 aWayPoint_B(0.0f, 0.0f, 0.0f);
+	Vector3 aWayPoint_C(0.0f, 0.0f, 0.0f);
+
+	try
+	{
+		aWayPoint_A = CLuaManager::GetInstance()->get<Vector3>("WayPoints.Enemy_1.A");
+		if ((aWayPoint_A.x == 0.0f) && (aWayPoint_A.y == 0.0f) && (aWayPoint_A.x == 0.0f))
+			throw "error102";
+		aWayPoint_B = CLuaManager::GetInstance()->get<Vector3>("WayPoints.Enemy_1.B");
+		aWayPoint_C = CLuaManager::GetInstance()->get<Vector3>("WayPoints.Enemy_1.C");
+	}
+	catch (exception& e)
+	{
+		cout << e.what() << '\n';
+	}
+	catch (const char* sErrorMessage)
+	{
+		CLuaManager::GetInstance()->error(sErrorMessage);
+	}
+
+	// Apply offsets to the Enemy3D's position
+	aWayPoint_A.x = position.x + aWayPoint_A.x;
+	aWayPoint_A.z = position.z + aWayPoint_A.z;
+	aWayPoint_B.x = position.x + aWayPoint_B.x;
+	aWayPoint_B.z = position.z + aWayPoint_B.z;
+	aWayPoint_C.x = position.x + aWayPoint_C.x;
+	aWayPoint_C.z = position.z + aWayPoint_C.z;
+
+	int m_iWayPointID = cWaypointManager.AddWaypoint(aWayPoint_A);
+	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, aWayPoint_B);
+	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, aWayPoint_C);
 
 	cWaypointManager.PrintSelf();
 }
