@@ -81,7 +81,7 @@ void CMenuState::Init()
 
 	MeshBuilder::GetInstance()->GenerateQuad("cursor", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("cursor")->textureID = LoadTGA("Image//cursor.tga");
-	mouseCursor = Create::Sprite2DObject("cursor", Vector3(0, 0, 0), Vector3(30, 60, 1), true);
+	mouseCursor = Create::Sprite2DObject("cursor", Vector3(0, 0, 0), Vector3(25, 40, 1), true);
 	MouseController::GetInstance()->SetKeepMouseCentered(false);
 
 	cout << "CMenuState loaded\n" << endl;

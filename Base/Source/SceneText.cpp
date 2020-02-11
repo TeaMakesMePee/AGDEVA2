@@ -613,10 +613,10 @@ void SceneText::Update(double dt)
 			CPerformance::GetInstance()->SetIsViewTest(true);
 	}
 
-	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-	{
-		SceneManager::GetInstance()->SetActiveScene("MenuState");
-	}
+	//if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+	//{
+	//	SceneManager::GetInstance()->SetActiveScene("MenuState");
+	//}
 
 	// if the left mouse button was released
 	if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
