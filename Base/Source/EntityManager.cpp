@@ -7,6 +7,7 @@
 #include "Projectile/Laser.h"
 #include "Performance/Performance.h"
 #include "GenericEntity.h"
+#include "Enemy/Enemy3D.h"
 
 #include <iostream>
 using namespace std;
@@ -342,6 +343,7 @@ bool EntityManager::CheckForCollision(void)
 					{
 						aProjectile->SetIsDone(true);
 						ExportList[i]->SetIsDone(true);
+						CEnemy3D::count--;
 						CSpatialPartition::GetInstance()->Remove(ExportList[i]);
 						CSceneGraph::GetInstance()->DeleteNode(ExportList[i]);
 					}
@@ -366,6 +368,7 @@ bool EntityManager::CheckForCollision(void)
 					{
 						aProjectile->SetIsDone(true);
 						ExportList[i]->SetIsDone(true);
+						CEnemy3D::count--;
 						CSpatialPartition::GetInstance()->Remove(ExportList[i]);
 						CSceneGraph::GetInstance()->DeleteNode(ExportList[i]);
 					}

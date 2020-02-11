@@ -10,6 +10,7 @@
 #include "../Minimap/Minimap.h"
 #include "../WeaponInfo/GrenadeThrow.h"
 #include "../WeaponInfo/LaserBlaster.h"
+#include "LuaManager.h"
 
 // Allocating and initializing CPlayerInfo's static data member.  
 // The pointer is allocated but not the object's constructor.
@@ -68,7 +69,11 @@ CPlayerInfo::~CPlayerInfo(void)
 void CPlayerInfo::Init(void)
 {
 	// Set the default values
-	defaultPosition.Set(0,0,10);
+	//defaultPosition.Set(0,0,10);
+	defaultPosition = Vector3(CLuaManager::GetInstance()->get<float>("xx.dd.a"),
+		CLuaManager::GetInstance()->get<float>("xx.dd.b"),
+		CLuaManager::GetInstance()->get<float>("xx.dd.c"));
+
 	defaultTarget.Set(0,0,0);
 	defaultUp.Set(0,1,0);
 

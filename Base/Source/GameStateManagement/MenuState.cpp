@@ -36,7 +36,6 @@ void CMenuState::Init()
 
 	Edittables *bg = new Edittables("GameScreen.screens.menu", "string");
 	bg->stringvar = &background;
-
 	CLuaManager::GetInstance()->edittableList.push_back(bg);
 
 	// Load all the meshes
@@ -52,13 +51,27 @@ void CMenuState::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("menuButton", Color(0, 0, 0), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("menuButton")->textureID = LoadTGA("Image//menuButtonBG.tga");
 
-	Vector3 playButtonPos = Vector3(0.0f, 100.0f, 2.0f);
-	Vector3 hsButtonPos = Vector3(0.0f, 0.0f, 2.0f);
-	Vector3 exitButtonPos = Vector3(0.0f, -100.0f, 2.0f);
-	Vector3 playButtonTextScale = Vector3(30.0f, 30.0f, 1.0f);
-	Vector3 playButtonBGScale = Vector3(200.0f, 60.0f, 1.0f);
+	//Vector3 playButtonPos = CLuaManager::GetInstance()->get<Vector3>("GameScreen.button.menuPlay");
+	//Vector3 hsButtonPos = CLuaManager::GetInstance()->get<Vector3>("GameScreen.button.menuHs");
+	//Vector3 exitButtonPos = CLuaManager::GetInstance()->get<Vector3>("GameScreen.button.menuExit");
+
+	Vector3 playButtonPos = Vector3(0.0, 100.0, 2.0);
+	Vector3 hsButtonPos = Vector3(0.0, 0.0, 2.0);
+	Vector3 exitButtonPos = Vector3(0.0, -100.0, 2.0);
+
 	Color playEnterColor = Color(1, 1, 1);
 	Color playLeaveColor = Color(0, 0, 0);
+
+	Vector3 playButtonTextScale = Vector3(30.0f, 30.0f, 1.0f);
+	Vector3 playButtonBGScale = Vector3(200.0f, 60.0f, 1.0f);
+
+	//Color playEnterColor = Color(CLuaManager::GetInstance()->get<float>("GameScreen.button.enterColor.x"),
+	//	CLuaManager::GetInstance()->get<float>("GameScreen.button.enterColor.y"),
+	//	CLuaManager::GetInstance()->get<float>("GameScreen.button.enterColor.z"));
+
+	//Color playLeaveColor = Color(CLuaManager::GetInstance()->get<float>("GameScreen.button.leaveColor.x"),
+	//	CLuaManager::GetInstance()->get<float>("GameScreen.button.leaveColor.y"),
+	//	CLuaManager::GetInstance()->get<float>("GameScreen.button.leaveColor.z"));
 
 	playButton = Create::Button2DObject("text", 
 										"menuButton", 

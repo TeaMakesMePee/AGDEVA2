@@ -23,9 +23,9 @@ GameScreen = {
 --Highscore
 Highscore = {
 	scores = {
-		first = 900,
-		second = 800,
-		third = 700
+		first = 99999,
+		second = 99999,
+		third = 99999
 	}
 }
 
@@ -37,6 +37,13 @@ PlayerInfo = {
 	direction = {0, 10.0, 20.0},
 	callsign = "DaNoob",
 	HP = 300
+}
+
+--XX
+xx = {
+	dd = {
+		a = 0, b = 0, c = 10
+	},
 }
 
 --LOD
@@ -55,8 +62,45 @@ volumeLevel = 100
 -- Way points
 WayPoints = {
 	Enemy_1 = {
-		A = {5.0, 0.0, 5.0},
-		B = {5.0, 0.0, 0.0},
-		C = {0.0, 0.0, 5.0}
+		A = {50.0, 0.0, 50.0},
+		B = {-50.0, 0.0, 50.0},
+		C = {-50.0, 0.0, -50.0},
+		D = {50.0, 0.0, -50.0}
 	}
+}
+
+-- Enemy Info
+EnemyInfo = {
+	speed = 20
+}
+
+EnemyPos = {
+        enemy1 = {50.0, 0.0, 50.0},
+        enemy2 = {-50.0, 0.0, -50.0},
+        enemy3 = {-50.0, 0.0, 50.0},
+        enemy4 = {50.0, 0.0, -50.0}
+}
+
+Weapon = {
+		magRounds = 1,
+		maxMagRounds = 1,
+		totalRounds = 8,
+		maxTotalRounds = 8,
+		timeBetweenShots = 0.5
+}
+
+Pistol = {
+		magRounds = 8,
+		maxMagRounds = 8,
+		totalRounds = 40,
+		maxTotalRounds = 40,
+		timeBetweenShots = 0.3333
+}
+
+Laser = {
+		magRounds = 5,
+		maxMagRounds = 5,
+		totalRounds = 10,
+		maxTotalRounds = 10,
+		timeBetweenShots = 0.1667
 }

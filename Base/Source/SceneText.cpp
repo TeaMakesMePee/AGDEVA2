@@ -147,131 +147,188 @@ void SceneText::CreateEntities(void)
 	std::vector<bool> occupied;
 	occupied.resize(100, false);
 
-	GenericEntity* BuildingTest;
-	for (int x = 4; x < 6; ++x)
-	{
-		for (int y = 4; y < 6; ++y)
-		{
-			Vector3 pos = CSpatialPartition::GetInstance()->GetCentreByIndex(x, y) * 2.f;
-			BuildingTest = Create::Entity("Building_Low", pos, Vector3(1.f, 1.f, 1.f), false);
-			occupied[x * 10 + y] = true; 
-			BuildingTest->InitLOD("Building_High", "Building_Mid", "Building_Low");
-			BuildingTest->SetCollider(false);
-			BuildingTest->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-			CSpatialPartition::GetInstance()->Add(BuildingTest);
-			NPCSceneNode = CSceneGraph::GetInstance()->AddNode(BuildingTest);
-			NPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
-		}
-	}
+	//GenericEntity* BuildingTest;
+	//for (int x = 4; x < 6; ++x)
+	//{
+	//	for (int y = 4; y < 6; ++y)
+	//	{
+	//		Vector3 pos = CSpatialPartition::GetInstance()->GetCentreByIndex(x, y) * 2.f;
+	//		BuildingTest = Create::Entity("Building_Low", pos, Vector3(1.f, 1.f, 1.f), false);
+	//		occupied[x * 10 + y] = true; 
+	//		BuildingTest->InitLOD("Building_High", "Building_Mid", "Building_Low");
+	//		BuildingTest->SetCollider(false);
+	//		BuildingTest->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	//		CSpatialPartition::GetInstance()->Add(BuildingTest);
+	//		NPCSceneNode = CSceneGraph::GetInstance()->AddNode(BuildingTest);
+	//		NPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
+	//	}
+	//}
 
-	for (int x = 0; x < 10; ++x)
-	{
-		for (int z = 0; z < 10; ++z)
-		{
-			if (!occupied[x * 10 + z])
-			{
-				int count = 0;
-				if (x + 1 <= 9)
-					if (occupied[(x + 1) * 10 + z])
-						count++;
-				if (x - 1 >= 0)
-					if (occupied[(x - 1) * 10 + z])
-						count++;
-				if (z + 1 <= 9)
-					if (occupied[x * 10 + z + 1])
-						count++;
-				if (z - 1 >= 0)
-					if (occupied[x * 10 + z - 1])
-						count++;
+	//for (int x = 0; x < 10; ++x)
+	//{
+	//	for (int z = 0; z < 10; ++z)
+	//	{
+	//		if (!occupied[x * 10 + z])
+	//		{
+	//			int count = 0;
+	//			if (x + 1 <= 9)
+	//				if (occupied[(x + 1) * 10 + z])
+	//					count++;
+	//			if (x - 1 >= 0)
+	//				if (occupied[(x - 1) * 10 + z])
+	//					count++;
+	//			if (z + 1 <= 9)
+	//				if (occupied[x * 10 + z + 1])
+	//					count++;
+	//			if (z - 1 >= 0)
+	//				if (occupied[x * 10 + z - 1])
+	//					count++;
 
-				if (count > 0)
-					continue;
+	//			if (count > 0)
+	//				continue;
 
-				int rand = Math::RandIntMinMax(0, 1);
-				Vector3 pos = CSpatialPartition::GetInstance()->GetCentreByIndex(x, z) * 2.f;
+	//			int rand = Math::RandIntMinMax(0, 1);
+	//			Vector3 pos = CSpatialPartition::GetInstance()->GetCentreByIndex(x, z) * 2.f;
 
-				if (rand)
-				{
-					BuildingTest = Create::Entity("Building_Low", pos, Vector3(1.f, 1.f, 1.f), false);
-					occupied[x * 10 + z] = true;
-					BuildingTest->InitLOD("Building_High", "Building_Mid", "Building_Low");
-					BuildingTest->SetCollider(false);
-					BuildingTest->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-					CSpatialPartition::GetInstance()->Add(BuildingTest);
-					NPCSceneNode = CSceneGraph::GetInstance()->AddNode(BuildingTest);
-					NPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
-				}
-			}
-		}
-	}
+	//			if (rand)
+	//			{
+	//				BuildingTest = Create::Entity("Building_Low", pos, Vector3(1.f, 1.f, 1.f), false);
+	//				occupied[x * 10 + z] = true;
+	//				BuildingTest->InitLOD("Building_High", "Building_Mid", "Building_Low");
+	//				BuildingTest->SetCollider(false);
+	//				BuildingTest->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	//				CSpatialPartition::GetInstance()->Add(BuildingTest);
+	//				NPCSceneNode = CSceneGraph::GetInstance()->AddNode(BuildingTest);
+	//				NPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
+	//			}
+	//		}
+	//	}
+	//}
+
+	//CEnemy3D* anEnemy3D;
+	//GenericEntity* enemyPart;
+	//srand(NULL);
+	//for (int x = 0; x < 10; ++x)
+	//{
+	//	for (int z = 0; z < 10; ++z)
+	//	{
+	//		if (!occupied[x * 10 + z])
+	//		{
+	//			int rand = Math::RandIntMinMax(0, 1);
+	//			if (rand)
+	//			{
+	//				occupied[x * 10 + z] = true;
+	//				//Vector3 pos(50, 0, 50);
+	//				Vector3 pos = CSpatialPartition::GetInstance()->GetCentreByIndex(x, z) * 2.f;
+	//				anEnemy3D = Create::Enemy3D("cube2", pos, Vector3(2.5f, 2.5f, 2.5f), false);
+	//				anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
+	//				anEnemy3D->Init();
+	//				//anEnemy3D->SetPos(Vector3(0, 0, 0));
+	//				anEnemy3D->SetSpeed(0.0f);
+	//				anEnemy3D->SetCollider(true);
+	//				anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
+
+	//				anEnemy3D->SetTerrain(groundEntity);
+
+	//				NPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+	//				aRotateMtx = new CUpdateTransformation();
+	//				NPCSceneNode->SetUpdateTransformation(aRotateMtx);
+
+	//				// Add the entity into the Spatial Partition
+	//				CSpatialPartition::GetInstance()->Add(anEnemy3D);
+
+	//				enemyPart = Create::Entity("sphere3", pos + Vector3(2.f, 0.f, 0.f), Vector3(1.f, 1.f, 1.f), false);
+	//				enemyPart->InitLOD("sphere3", "sphere4", "cube");
+	//				enemyPart->SetCollider(true);
+	//				enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	//				childNode = NPCSceneNode->AddChild(enemyPart);
+	//				childNode->SetTranslate(Vector3(4.f, 0.f, 0.f));
+	//				CSpatialPartition::GetInstance()->Add(enemyPart);
+
+	//				enemyPart = Create::Entity("sphere3", pos + Vector3(-2.f, 0.f, 0.f), Vector3(1.f, 1.f, 1.f), false);
+	//				enemyPart->InitLOD("sphere3", "sphere4", "cube");
+	//				enemyPart->SetCollider(true);
+	//				enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	//				childNode = NPCSceneNode->AddChild(enemyPart);
+	//				childNode->SetTranslate(Vector3(-4.f, 0.f, 0.f));
+	//				CSpatialPartition::GetInstance()->Add(enemyPart);
+
+	//				enemyPart = Create::Entity("sphere3", pos + Vector3(0.f, 0.f, 2.f), Vector3(1.f, 1.f, 1.f), false);
+	//				enemyPart->InitLOD("sphere3", "sphere4", "cube");
+	//				enemyPart->SetCollider(true);
+	//				enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	//				childNode = NPCSceneNode->AddChild(enemyPart);
+	//				childNode->SetTranslate(Vector3(0.f, 0.f, 4.f));
+	//				CSpatialPartition::GetInstance()->Add(enemyPart);
+
+	//				enemyPart = Create::Entity("sphere3", pos + Vector3(0.f, 0.f, -2.f), Vector3(1.f, 1.f, 1.f), false);
+	//				enemyPart->InitLOD("sphere3", "sphere4", "cube");
+	//				enemyPart->SetCollider(true);
+	//				enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	//				childNode = NPCSceneNode->AddChild(enemyPart);
+	//				childNode->SetTranslate(Vector3(0.f, 0.f, -4.f));
+	//				CSpatialPartition::GetInstance()->Add(enemyPart);
+	//			}
+	//		}
+	//	}
+	//}
 
 	CEnemy3D* anEnemy3D;
-	GenericEntity* enemyPart;
-	srand(NULL);
-	for (int x = 0; x < 10; ++x)
-	{
-		for (int z = 0; z < 10; ++z)
-		{
-			if (!occupied[x * 10 + z])
-			{
-				int rand = Math::RandIntMinMax(0, 1);
-				if (rand)
-				{
-					occupied[x * 10 + z] = true;
-					//Vector3 pos(50, 0, 50);
-					Vector3 pos = CSpatialPartition::GetInstance()->GetCentreByIndex(x, z) * 2.f;
-					anEnemy3D = Create::Enemy3D("cube2", pos, Vector3(2.5f, 2.5f, 2.5f), false);
-					anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
-					anEnemy3D->Init();
-					//anEnemy3D->SetPos(Vector3(0, 0, 0));
-					anEnemy3D->SetSpeed(0.0f);
-					anEnemy3D->SetCollider(true);
-					anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
+	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy1"), Vector3(2.5f, 2.5f, 2.5f), false);
+	//anEnemy3D = Create::Enemy3D("cube2", Vector3(50, 0, 50), Vector3(2.5f, 2.5f, 2.5f), false);
+	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
+	anEnemy3D->Init(playerInfo);
+	anEnemy3D->SetSpeed(20.0f);
+	anEnemy3D->SetCollider(true);
+	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
+	anEnemy3D->SetTerrain(groundEntity);
+	NPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+	aRotateMtx = new CUpdateTransformation();
+	NPCSceneNode->SetUpdateTransformation(aRotateMtx);
+	CSpatialPartition::GetInstance()->Add(anEnemy3D);
+	CEnemy3D::count++;
 
-					anEnemy3D->SetTerrain(groundEntity);
+	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy2"), Vector3(2.5f, 2.5f, 2.5f), false);
+	//anEnemy3D = Create::Enemy3D("cube2", Vector3(-50, 0, -50), Vector3(2.5f, 2.5f, 2.5f), false);
+	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
+	anEnemy3D->Init(playerInfo);
+	anEnemy3D->SetSpeed(20.0f);
+	anEnemy3D->SetCollider(true);
+	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
+	anEnemy3D->SetTerrain(groundEntity);
+	NPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+	aRotateMtx = new CUpdateTransformation();
+	NPCSceneNode->SetUpdateTransformation(aRotateMtx);
+	CSpatialPartition::GetInstance()->Add(anEnemy3D);
+	CEnemy3D::count++;
 
-					NPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
-					aRotateMtx = new CUpdateTransformation();
-					NPCSceneNode->SetUpdateTransformation(aRotateMtx);
+	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy3"), Vector3(2.5f, 2.5f, 2.5f), false);
+	//anEnemy3D = Create::Enemy3D("cube2", Vector3(-50, 0, 50), Vector3(2.5f, 2.5f, 2.5f), false);
+	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
+	anEnemy3D->Init(playerInfo);
+	anEnemy3D->SetSpeed(20.0f);
+	anEnemy3D->SetCollider(true);
+	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
+	anEnemy3D->SetTerrain(groundEntity);
+	NPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+	aRotateMtx = new CUpdateTransformation();
+	NPCSceneNode->SetUpdateTransformation(aRotateMtx);
+	CSpatialPartition::GetInstance()->Add(anEnemy3D);
+	CEnemy3D::count++;
 
-					// Add the entity into the Spatial Partition
-					CSpatialPartition::GetInstance()->Add(anEnemy3D);
-
-					enemyPart = Create::Entity("sphere3", pos + Vector3(2.f, 0.f, 0.f), Vector3(1.f, 1.f, 1.f), false);
-					enemyPart->InitLOD("sphere3", "sphere4", "cube");
-					enemyPart->SetCollider(true);
-					enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-					childNode = NPCSceneNode->AddChild(enemyPart);
-					childNode->SetTranslate(Vector3(4.f, 0.f, 0.f));
-					CSpatialPartition::GetInstance()->Add(enemyPart);
-
-					enemyPart = Create::Entity("sphere3", pos + Vector3(-2.f, 0.f, 0.f), Vector3(1.f, 1.f, 1.f), false);
-					enemyPart->InitLOD("sphere3", "sphere4", "cube");
-					enemyPart->SetCollider(true);
-					enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-					childNode = NPCSceneNode->AddChild(enemyPart);
-					childNode->SetTranslate(Vector3(-4.f, 0.f, 0.f));
-					CSpatialPartition::GetInstance()->Add(enemyPart);
-
-					enemyPart = Create::Entity("sphere3", pos + Vector3(0.f, 0.f, 2.f), Vector3(1.f, 1.f, 1.f), false);
-					enemyPart->InitLOD("sphere3", "sphere4", "cube");
-					enemyPart->SetCollider(true);
-					enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-					childNode = NPCSceneNode->AddChild(enemyPart);
-					childNode->SetTranslate(Vector3(0.f, 0.f, 4.f));
-					CSpatialPartition::GetInstance()->Add(enemyPart);
-
-					enemyPart = Create::Entity("sphere3", pos + Vector3(0.f, 0.f, -2.f), Vector3(1.f, 1.f, 1.f), false);
-					enemyPart->InitLOD("sphere3", "sphere4", "cube");
-					enemyPart->SetCollider(true);
-					enemyPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-					childNode = NPCSceneNode->AddChild(enemyPart);
-					childNode->SetTranslate(Vector3(0.f, 0.f, -4.f));
-					CSpatialPartition::GetInstance()->Add(enemyPart);
-				}
-			}
-		}
-	}
+	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy4"), Vector3(2.5f, 2.5f, 2.5f), false);
+	//anEnemy3D = Create::Enemy3D("cube2", Vector3(50, 0, -50), Vector3(2.5f, 2.5f, 2.5f), false);
+	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
+	anEnemy3D->Init(playerInfo);
+	anEnemy3D->SetSpeed(20.0f);
+	anEnemy3D->SetCollider(true);
+	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
+	anEnemy3D->SetTerrain(groundEntity);
+	NPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+	aRotateMtx = new CUpdateTransformation();
+	NPCSceneNode->SetUpdateTransformation(aRotateMtx);
+	CSpatialPartition::GetInstance()->Add(anEnemy3D);
+	CEnemy3D::count++;
 }
 
 SceneText::~SceneText()
@@ -347,6 +404,7 @@ void SceneText::Init()
 	//
 	//// Tell the graphics manager to use the shader we just loaded
 	//GraphicsManager::GetInstance()->SetActiveShader("default");
+	elapsedTime = 0.0;
 
 	lights[0] = new Light();
 	GraphicsManager::GetInstance()->AddLight("lights[0]", lights[0]);
@@ -530,6 +588,28 @@ void SceneText::Init()
 
 void SceneText::Update(double dt)
 {
+	std::cout << "this: " << CEnemy3D::count << std::endl;
+	if (CEnemy3D::count == 0)
+	{
+		if ((float)elapsedTime < CLuaManager::GetInstance()->get<float>("Highscore.scores.first"))
+		{
+			CLuaManager::GetInstance()->set<float>("Highscore.scores.first", (float)elapsedTime, false);
+		}
+		else if ((float)elapsedTime < CLuaManager::GetInstance()->get<float>("Highscore.scores.second"))
+		{
+			CLuaManager::GetInstance()->set<float>("Highscore.scores.second", (float)elapsedTime, false);
+		}
+		else if ((float)elapsedTime < CLuaManager::GetInstance()->get<float>("Highscore.scores.third"))
+		{
+			CLuaManager::GetInstance()->set<float>("Highscore.scores.third", (float)elapsedTime, false);
+		}
+		Application::run = false;
+	}
+	else
+	{
+		elapsedTime += dt;
+	}
+
 	// Update our entities
 	EntityManager::GetInstance()->Update(dt);
 	//CSceneGraph::GetInstance()->ReCalc_AABB();

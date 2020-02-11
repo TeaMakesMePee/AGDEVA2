@@ -1,5 +1,6 @@
 #include "WeaponInfo.h"
 #include "../Projectile/Projectile.h"
+#include "LuaManager.h"
 
 #include <iostream>
 using namespace std;
@@ -109,16 +110,22 @@ bool CWeaponInfo::GetCanFire(void) const
 void CWeaponInfo::Init(void)
 {
 	// The number of ammunition in a magazine for this weapon
-	magRounds = 1;
+	//magRounds = 1;
+	magRounds = CLuaManager::GetInstance()->get<int>("Weapon.magRounds");
 	// The maximum number of ammunition for this magazine for this weapon
-	maxMagRounds = 1;
+	//maxMagRounds = 1;
+	maxMagRounds = CLuaManager::GetInstance()->get<int>("Weapon.maxMagRounds");
+
 	// The current total number of rounds currently carried by this player
-	totalRounds = 8;
+	//totalRounds = 8;
+	totalRounds = CLuaManager::GetInstance()->get<int>("Weapon.totalRounds");
+
 	// The max total number of rounds currently carried by this player
-	maxTotalRounds = 8;
+	//maxTotalRounds = 8;
+	maxTotalRounds = CLuaManager::GetInstance()->get<int>("Weapon.maxTotalRounds");
 
 	// The time between shots
-	timeBetweenShots = 0.5;
+	timeBetweenShots = CLuaManager::GetInstance()->get<float>("Weapon.timeBetweenShots");
 	// The elapsed time (between shots)
 	elapsedTime = 0.0;
 	// Boolean flag to indicate if weapon can fire now

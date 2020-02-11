@@ -58,6 +58,7 @@ public:
 	vector<string> getTableKeys(const string& name);
 	// Get distance square value through the Lua Interface Class
 	float getDistanceSquareValue(const char* variableName, Vector3 source, Vector3 destination);
+
 	// Get variable number of values through the Lua Interface Class
 	bool getVariableValues(const char* variableName,
 		int& minValue, int& maxValue, int& avgValue, int& numValues,

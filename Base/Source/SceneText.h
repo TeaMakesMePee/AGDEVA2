@@ -50,6 +50,7 @@ private:
 	//CEnemy3D* anEnemy3D;	// This is the CEnemy class for 3D use.
 
 	//static SceneText* sInstance; // The pointer to the object that gets registered
+	double elapsedTime;
 
 protected:
 	virtual void CreateEntities(void);

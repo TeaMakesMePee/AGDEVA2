@@ -2,6 +2,7 @@
 #include "../GenericEntity.h"
 #include "../GroundEntity.h"
 #include "../Waypoint/WaypointManager.h"
+#include "../PlayerInfo/PlayerInfo.h"
 
 #include <vector>
 using namespace std;
@@ -20,20 +21,24 @@ protected:
 	//Vector3 maxBoundary, minBoundary;
 	GroundEntity* m_pTerrain;
 
-	double m_dSpeed;
+	float m_dSpeed;
 	double m_dAcceleration;
 	float m_fElapsedTimeBeforeUpdate;
 
 	//WaypointManager
 	CWaypointManager cWaypointManager;
 
+	CPlayerInfo* player;
+
 public:
 	CEnemy3D(Mesh* _modelMesh);
 	virtual ~CEnemy3D();
 
-	void Init(void);
+	void Init(CPlayerInfo *player);
 	// Reset this player instance to default
 	void Reset(void);
+
+	static int count;
 
 	/*
 	// Set position

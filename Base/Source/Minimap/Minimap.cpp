@@ -3,6 +3,7 @@
 #include "RenderHelper.h"
 #include "../EntityManager.h"
 #include "GL\glew.h"
+#include "LuaManager.h"
 
 CMinimap::CMinimap(void)
 	: m_cMinimap_Background(NULL)
@@ -45,6 +46,16 @@ bool CMinimap::Init(void)
 	m_iAngle = -90;
 	position.Set(335.f, 235.f, 0.0f);
 	scale.Set(100.0f, 100.0f, 100.0f);
+	//Edittables *pos = new Edittables("Minimap.pos", "Vector3");
+	//pos->Vector3var = &position;
+	//CLuaManager::GetInstance()->edittableList.push_back(pos);
+
+	//Edittables *scalex = new Edittables("Minimap.scale", "Vector3");
+	//scalex->Vector3var = &scale;
+	//CLuaManager::GetInstance()->edittableList.push_back(scalex);
+
+	//position = CLuaManager::GetInstance()->get<Vector3>("Minimap.pos");
+	//scale = CLuaManager::GetInstance()->get<Vector3>("Minimap.scale");
 
 	return true;
 }

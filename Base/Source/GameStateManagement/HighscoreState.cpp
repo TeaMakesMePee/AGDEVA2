@@ -57,13 +57,12 @@ void CHighscoreState::Init()
 	x = "2: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.second"));
 	tObj[1]->SetText(x);
 
-
-	Vector3 playButtonPos = Vector3(0.0f, 100.0f, 2.0f);
-	Vector3 hsButtonPos = Vector3(0.0f, 0.0f, 2.0f);
-	Vector3 exitButtonPos = Vector3(0.0f, -250.0f, 2.0f);
+	Vector3 exitButtonPos = Vector3(0.0, -250.0, 2.0);
 	Vector3 playButtonTextScale = Vector3(30.0f, 30.0f, 1.0f);
 	Vector3 playButtonBGScale = Vector3(200.0f, 60.0f, 1.0f);
+
 	Color playEnterColor = Color(1, 1, 1);
+
 	Color playLeaveColor = Color(0, 0, 0);
 
 	MeshBuilder::GetInstance()->GenerateQuad("menuButton", Color(0, 0, 0), 1.f);

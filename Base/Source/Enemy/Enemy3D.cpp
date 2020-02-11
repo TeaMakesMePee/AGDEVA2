@@ -6,6 +6,8 @@
 #include "../Performance/Performance.h"
 #include "../Lua//LuaManager.h"
 
+int CEnemy3D::count = 0;
+
 CEnemy3D::CEnemy3D(Mesh* _modelMesh)
 	: GenericEntity(NULL)
 	, destinationPosition(NULL)
@@ -25,9 +27,11 @@ CEnemy3D::~CEnemy3D()
 	cWaypointManager.Destroy();
 }
 
-void CEnemy3D::Init(void)
+void CEnemy3D::Init(CPlayerInfo* player)
 {
-	destinationPosition.Set(5.0f, 0.0f, 500.0f);
+	this->player = player;
+
+	destinationPosition.Set(0.f, 0.0f, 10.0f);
 
 	// Set speed
 	m_dSpeed = 1.0;
@@ -38,6 +42,7 @@ void CEnemy3D::Init(void)
 	Vector3 aWayPoint_A(0.0f, 0.0f, 0.0f);
 	Vector3 aWayPoint_B(0.0f, 0.0f, 0.0f);
 	Vector3 aWayPoint_C(0.0f, 0.0f, 0.0f);
+	Vector3 aWayPoint_D(0.0f, 0.0f, 0.0f);
 
 	try
 	{
@@ -46,6 +51,7 @@ void CEnemy3D::Init(void)
 			throw "error102";
 		aWayPoint_B = CLuaManager::GetInstance()->get<Vector3>("WayPoints.Enemy_1.B");
 		aWayPoint_C = CLuaManager::GetInstance()->get<Vector3>("WayPoints.Enemy_1.C");
+		aWayPoint_D = CLuaManager::GetInstance()->get<Vector3>("WayPoints.Enemy_1.D");
 	}
 	catch (exception& e)
 	{
@@ -63,10 +69,15 @@ void CEnemy3D::Init(void)
 	aWayPoint_B.z = position.z + aWayPoint_B.z;
 	aWayPoint_C.x = position.x + aWayPoint_C.x;
 	aWayPoint_C.z = position.z + aWayPoint_C.z;
+	aWayPoint_D.x = position.x + aWayPoint_D.x;
+	aWayPoint_D.z = position.z + aWayPoint_D.z;
+
+	destinationPosition = aWayPoint_A;
 
 	int m_iWayPointID = cWaypointManager.AddWaypoint(aWayPoint_A);
 	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, aWayPoint_B);
 	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, aWayPoint_C);
+	m_iWayPointID = cWaypointManager.AddWaypoint(m_iWayPointID, aWayPoint_D);
 
 	cWaypointManager.PrintSelf();
 }
@@ -123,7 +134,10 @@ void CEnemy3D::SetTerrain(GroundEntity* m_pTerrain)
 // Set the speed of this Enemy's movement
 void CEnemy3D::SetSpeed(const double m_dSpeed)
 {
-	this->m_dSpeed = m_dSpeed;
+	//Edittables *spd = new Edittables("EnemyInfo.speed", "float");
+	//spd->floatvar = &this->m_dSpeed;
+	//CLuaManager::GetInstance()->edittableList.push_back(spd);
+	this->m_dSpeed = CLuaManager::GetInstance()->get<float>("EnemyInfo.speed");
 }
 // Set the acceleration of this Enemy's movement
 void CEnemy3D::SetAcceleration(const double m_dAcceleration)
@@ -170,9 +184,18 @@ double CEnemy3D::GetAcceleration(void) const
 // Update
 void CEnemy3D::Update(double dt)
 {
-	Vector3 movementDirection = (destinationPosition - position).Normalized();
-	position += movementDirection * (float)m_dSpeed * (float)dt;
-
+	if ((player->GetPos() - position).Length() < 100.f)
+	{
+		std::cout << "Chasing" << std::endl;
+		Vector3 movementDirection = (player->GetPos() - position).Normalized();
+		position += movementDirection * (float)m_dSpeed * (float)dt;
+	}
+	else
+	{
+		std::cout << "Waypoint" << std::endl;
+		Vector3 movementDirection = (destinationPosition - position).Normalized();
+		position += movementDirection * (float)m_dSpeed * (float)dt;
+	}
 	// Constrain the position
 	Constrain();
 
