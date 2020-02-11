@@ -32,7 +32,7 @@ void CIntroState::Init()
 
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateQuad("INTROSTATE_BKGROUND", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND")->textureID = LoadTGA("Image//IntroState.tga");
+	MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND")->textureID = LoadTGA("Image//IntroNightSky.tga");
 	IntroStateBackground = Create::Sprite2DObject("INTROSTATE_BKGROUND", 
 													Vector3(0.0f, 0.0f, 0.0f), 
 													Vector3(800.0f, 600.0f, 0.0f), true);

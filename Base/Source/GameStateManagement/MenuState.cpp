@@ -33,7 +33,7 @@ void CMenuState::Init()
 
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateQuad("MENUSTATE_BKGROUND", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("MENUSTATE_BKGROUND")->textureID = LoadTGA("Image//MenuState.tga");
+	MeshBuilder::GetInstance()->GetMesh("MENUSTATE_BKGROUND")->textureID = LoadTGA("Image//MenuNightSky.tga");
 	MenuStateBackground = Create::Sprite2DObject("MENUSTATE_BKGROUND", 
 												 Vector3(0.0f, 0.0f, 0.0f), 
 												 Vector3(800.0f, 600.0f, 0.0f), true);
@@ -41,13 +41,13 @@ void CMenuState::Init()
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
 	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("Image//calibri.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
-	MeshBuilder::GetInstance()->GenerateQuad("menuButton", Color(1, 1, 1), 1.f);
+	MeshBuilder::GetInstance()->GenerateQuad("menuButton", Color(0, 0, 0), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("menuButton")->textureID = LoadTGA("Image//menuButtonBG.tga");
 
 	Vector3 playButtonPos = Vector3(0.0f, 0.0f, 2.0f);
 	Vector3 playButtonTextScale = Vector3(30.0f, 45.0f, 1.0f);
-	Vector3 playButtonBGScale = Vector3(250.0f, 60.0f, 1.0f);
-	Color playEnterColor = Color(1, 0, 0);
+	Vector3 playButtonBGScale = Vector3(200.0f, 60.0f, 1.0f);
+	Color playEnterColor = Color(1, 1, 1);
 	Color playLeaveColor = Color(0, 0, 0);
 
 	playButton = Create::Button2DObject("text", 
