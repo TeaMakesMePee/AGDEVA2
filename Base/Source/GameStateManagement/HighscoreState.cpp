@@ -76,14 +76,14 @@ void CHighscoreState::Update(double dt)
 
 	mouseCursor->SetPosition(Vector3(mousePos.x, mousePos.y, 5));
 
-	string x = "1: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.first"));
-	tObj[0]->SetText(x);
+	//string x = "1: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.first"));
+	//tObj[0]->SetText(x);
 
-	x = "3: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.third"));
-	tObj[2]->SetText(x);
+	//x = "3: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.third"));
+	//tObj[2]->SetText(x);
 
-	x = "2: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.second"));
-	tObj[1]->SetText(x);
+	//x = "2: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.second"));
+	//tObj[1]->SetText(x);
 }
 
 void CHighscoreState::Render()

@@ -81,14 +81,14 @@ void CMenuState::Init()
 										true);
 
 	hsButton = Create::Button2DObject("text",
-		"menuButton",
-		hsButtonPos,
-		"HIGHSCORE",
-		playButtonTextScale,
-		playButtonBGScale,
-		playEnterColor,
-		playLeaveColor,
-		true);
+									  "menuButton",
+									  hsButtonPos,
+									  "SCORE",
+									  playButtonTextScale,
+									  playButtonBGScale,
+									  playEnterColor,
+									  playLeaveColor,
+									  true);
 
 	MeshBuilder::GetInstance()->GenerateQuad("cursor", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("cursor")->textureID = LoadTGA("Image//cursor.tga");
