@@ -14,7 +14,7 @@ WindowInfo = {
 --GameScreen
 GameScreen = {
 	screens = {
-		menu = "Image//MenuNightSky.tga",
+		menu = "Image//MenuBG.tga",
 		title = "Image//IntroBG.tga",
 		highscore = "Image//HighscoreBG.tga",
 	}

@@ -481,24 +481,35 @@ void CLuaManager::error(const char * errorCode)
 void CLuaManager::CheckIfLuaFileWasEdited()
 {
 	updateNeeded = false;
-	string STRING, string2;
-	ifstream infile;
+	//string STRING, string2;
+	//ifstream infile;
 	string filename = "Image//DM2240.lua";
-	infile.open(filename.c_str());
-	while (!infile.eof()) // To get you all the lines.
+	//infile.open(filename.c_str());
+	//while (!infile.eof()) // To get you all the lines.
+	//{
+	//	getline(infile, STRING); // Saves the line in STRING.
+	//	string2 += STRING;
+	//	cout << STRING << endl; // Prints our STRING.
+	//}
+	//infile.close();
+	struct stat result;
+	if (stat(filename.c_str(), &result) == 0)
 	{
-		getline(infile, STRING); // Saves the line in STRING.
-		string2 += STRING;
-		cout << STRING << endl; // Prints our STRING.
+		__time64_t modTime = result.st_mtime;
+		if (modTime != lastModTime)
+		{
+			updateNeeded = true;
+			EditEdittables();
+			lastModTime = modTime;
+		}
 	}
-	infile.close();
 
-	if (file != string2)
-	{
-		file = string2;
-		updateNeeded = true;
-		EditEdittables();
-	}
+	//if (file != string2)
+	//{
+	//	file = string2;
+	//	updateNeeded = true;
+	//	EditEdittables();
+	//}
 }
 
 // Check if the Lua State is valid

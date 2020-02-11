@@ -155,6 +155,8 @@ public:
 
 	void CheckIfLuaFileWasEdited();
 
+	__time64_t lastModTime;
+
 	bool updateNeeded;
 	string file;
 

@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "../FPSCamera.h"
+#include "ButtonEntity.h"
 #include "../SpriteEntity.h"
 
 class SceneManager;
@@ -27,4 +28,5 @@ private:
 	TextEntity* tObj[3];
 	SpriteEntity *mouseCursor;
 	Vector3 mousePos;
+	CButtonEntity *exit;
 };
