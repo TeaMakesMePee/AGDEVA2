@@ -18,6 +18,7 @@
 #include "FPSCounter.h"
 #include "GameStateManagement\IntroState.h"
 #include "GameStateManagement\MenuState.h"
+#include "GameStateManagement\HighscoreState.h"
 
 #include "Lua\LuaManager.h"
 
@@ -239,6 +240,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
 	SceneManager::GetInstance()->AddScene("MenuState", new CMenuState());
 	SceneManager::GetInstance()->AddScene("GameState", new SceneText());
+	SceneManager::GetInstance()->AddScene("HighScore", new CHighscoreState());
 
 	// Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("IntroState");

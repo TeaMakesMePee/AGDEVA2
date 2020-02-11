@@ -11,10 +11,21 @@ WindowInfo = {
 	}
 }
 
+--GameScreen
 GameScreen = {
 	screens = {
 		menu = "Image//MenuNightSky.tga",
 		title = "Image//IntroBG.tga",
+		highscore = "Image//HighscoreBG.tga",
+	}
+}
+
+--Highscore
+Highscore = {
+	scores = {
+		first = 900,
+		second = 800,
+		third = 700
 	}
 }
 
@@ -37,14 +48,6 @@ LOD = {
 
 -- Array
 Array = {1, 2, 3, 4, 5}
-
--- HighScore
-HighScore = { 
-	["ABC"] = 100, 
-	["DEF"] = 80, 
-	["GHI"] = 60, 
-	["JKL"] = 40 
-}
 
 -- Volume Control
 volumeLevel = 100

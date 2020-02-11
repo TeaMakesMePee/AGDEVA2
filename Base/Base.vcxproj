@@ -19,6 +19,7 @@
     <ClCompile Include="Source\FrustumCulling\FrustumCulling.cpp" />
     <ClCompile Include="Source\FrustumCulling\Plane.cpp" />
     <ClCompile Include="Source\GameStateManagement\ButtonEntity.cpp" />
+    <ClCompile Include="Source\GameStateManagement\HighscoreState.cpp" />
     <ClCompile Include="Source\GameStateManagement\IntroState.cpp" />
     <ClCompile Include="Source\GameStateManagement\MenuState.cpp" />
     <ClCompile Include="Source\GenericEntity.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="Source\FrustumCulling\FrustumCulling.h" />
     <ClInclude Include="Source\FrustumCulling\Plane.h" />
     <ClInclude Include="Source\GameStateManagement\ButtonEntity.h" />
+    <ClInclude Include="Source\GameStateManagement\HighscoreState.h" />
     <ClInclude Include="Source\GameStateManagement\IntroState.h" />
     <ClInclude Include="Source\GameStateManagement\MenuState.h" />
     <ClInclude Include="Source\GenericEntity.h" />

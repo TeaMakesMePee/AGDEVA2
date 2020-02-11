@@ -6,14 +6,15 @@
 #include "MatrixStack.h"
 #include "../FPSCamera.h"
 #include "../SpriteEntity.h"
-#include "ButtonEntity.h"
 
 class SceneManager;
-class CMenuState : public Scene
+class TextEntity;
+//class TextEntity;
+class CHighscoreState : public Scene
 {
 public:
-	CMenuState();
-	~CMenuState();
+	CHighscoreState();
+	~CHighscoreState();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -22,12 +23,8 @@ public:
 
 private:
 	FPSCamera camera;
-	SpriteEntity* MenuStateBackground;
-	//	TextEntity* textObj[3];
-
-	CButtonEntity *playButton, *exitButton, *hsButton;
+	SpriteEntity* IntroStateBackground;
+	TextEntity* tObj[3];
+	SpriteEntity *mouseCursor;
 	Vector3 mousePos;
-	SpriteEntity*mouseCursor;
-
-	string background;
 };

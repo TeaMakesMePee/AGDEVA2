@@ -52,8 +52,9 @@ void CMenuState::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("menuButton", Color(0, 0, 0), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("menuButton")->textureID = LoadTGA("Image//menuButtonBG.tga");
 
-	Vector3 playButtonPos = Vector3(0.0f, 50.0f, 2.0f);
-	Vector3 exitButtonPos = Vector3(0.0f, -50.0f, 2.0f);
+	Vector3 playButtonPos = Vector3(0.0f, 100.0f, 2.0f);
+	Vector3 hsButtonPos = Vector3(0.0f, 0.0f, 2.0f);
+	Vector3 exitButtonPos = Vector3(0.0f, -100.0f, 2.0f);
 	Vector3 playButtonTextScale = Vector3(30.0f, 30.0f, 1.0f);
 	Vector3 playButtonBGScale = Vector3(200.0f, 60.0f, 1.0f);
 	Color playEnterColor = Color(1, 1, 1);
@@ -78,6 +79,16 @@ void CMenuState::Init()
 										playEnterColor,
 										playLeaveColor,
 										true);
+
+	hsButton = Create::Button2DObject("text",
+		"menuButton",
+		hsButtonPos,
+		"HIGHSCORE",
+		playButtonTextScale,
+		playButtonBGScale,
+		playEnterColor,
+		playLeaveColor,
+		true);
 
 	MeshBuilder::GetInstance()->GenerateQuad("cursor", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("cursor")->textureID = LoadTGA("Image//cursor.tga");
@@ -104,6 +115,7 @@ void CMenuState::Update(double dt)
 
 	// Update the playButton
 	playButton->Update(dt);
+	hsButton->Update(dt);
 	exitButton->Update(dt);
 
 	// Check if the playButton was clicked
@@ -116,6 +128,11 @@ void CMenuState::Update(double dt)
 	{
 		cout << "Exitting Programme" << endl;
 		Application::run = false;
+	}
+	if (hsButton->IsClickedOn())
+	{
+		cout << "Loading highscores" << endl;
+		SceneManager::GetInstance()->SetActiveScene("HighScore");
 	}
 }
 
@@ -161,6 +178,8 @@ void CMenuState::Exit()
 	EntityManager::GetInstance()->RemoveEntity(MenuStateBackground);
 	EntityManager::GetInstance()->RemoveEntity(playButton);
 	EntityManager::GetInstance()->RemoveEntity(exitButton);
+	EntityManager::GetInstance()->RemoveEntity(hsButton);
+	EntityManager::GetInstance()->RemoveEntity(mouseCursor);
 
 	// Remove the meshes which are specific to CMenuState
 	MeshBuilder::GetInstance()->RemoveMesh("MENUSTATE_BKGROUND");
