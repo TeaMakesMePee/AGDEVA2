@@ -11,6 +11,13 @@ WindowInfo = {
 	}
 }
 
+GameScreen = {
+	screens = {
+		menu = "Image//MenuNightSky.tga",
+		title = "Image//IntroBG.tga",
+	}
+}
+
 --PlayerInfo
 PlayerInfo = {
 	position = {

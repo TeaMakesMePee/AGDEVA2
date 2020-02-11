@@ -530,7 +530,6 @@ void SceneText::Init()
 
 void SceneText::Update(double dt)
 {
-	CLuaManager::GetInstance()->CheckIfLuaFileWasEdited();
 	// Update our entities
 	EntityManager::GetInstance()->Update(dt);
 	//CSceneGraph::GetInstance()->ReCalc_AABB();
@@ -612,6 +611,11 @@ void SceneText::Update(double dt)
 			CPerformance::GetInstance()->SetIsViewTest(false);
 		else
 			CPerformance::GetInstance()->SetIsViewTest(true);
+	}
+
+	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+	{
+		SceneManager::GetInstance()->SetActiveScene("MenuState");
 	}
 
 	// if the left mouse button was released

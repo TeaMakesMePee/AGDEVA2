@@ -25,7 +25,9 @@ private:
 	SpriteEntity* MenuStateBackground;
 	//	TextEntity* textObj[3];
 
-	CButtonEntity *playButton;
+	CButtonEntity *playButton, *exitButton;
 	Vector3 mousePos;
 	SpriteEntity*mouseCursor;
+
+	string background;
 };

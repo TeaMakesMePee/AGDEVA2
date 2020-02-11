@@ -25,6 +25,8 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
+bool Application::run = true;
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
@@ -252,7 +254,7 @@ void Application::Run()
 	CFPSCounter::GetInstance()->Init();
 	double dElapsedTime = 0.0;
 
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE) && run)
 	{
 		glfwPollEvents();
 		UpdateInput();
@@ -260,6 +262,7 @@ void Application::Run()
 		dElapsedTime = m_timer.getElapsedTime();
 		// Update the FPS counter
 		CFPSCounter::GetInstance()->Update(dElapsedTime);
+		CLuaManager::GetInstance()->CheckIfLuaFileWasEdited();
 		SceneManager::GetInstance()->Update(dElapsedTime);
 		SceneManager::GetInstance()->Render();
 

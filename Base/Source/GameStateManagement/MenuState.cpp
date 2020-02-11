@@ -15,6 +15,7 @@ using namespace std;
 #include "KeyboardController.h"
 #include "SceneManager.h"
 #include "MouseController.h"
+#include "LuaManager.h"
 
 CMenuState::CMenuState()
 {
@@ -30,10 +31,17 @@ void CMenuState::Init()
 	// Create and attach the camera to the scene
 	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
+	
+	background = CLuaManager::GetInstance()->get<string>("GameScreen.screens.menu");
+
+	Edittables *bg = new Edittables("GameScreen.screens.menu", "string");
+	bg->stringvar = &background;
+
+	CLuaManager::GetInstance()->edittableList.push_back(bg);
 
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateQuad("MENUSTATE_BKGROUND", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("MENUSTATE_BKGROUND")->textureID = LoadTGA("Image//MenuNightSky.tga");
+	MeshBuilder::GetInstance()->GetMesh("MENUSTATE_BKGROUND")->textureID = LoadTGA(background.c_str());
 	MenuStateBackground = Create::Sprite2DObject("MENUSTATE_BKGROUND", 
 												 Vector3(0.0f, 0.0f, 0.0f), 
 												 Vector3(800.0f, 600.0f, 0.0f), true);
@@ -44,8 +52,9 @@ void CMenuState::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("menuButton", Color(0, 0, 0), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("menuButton")->textureID = LoadTGA("Image//menuButtonBG.tga");
 
-	Vector3 playButtonPos = Vector3(0.0f, 0.0f, 2.0f);
-	Vector3 playButtonTextScale = Vector3(30.0f, 45.0f, 1.0f);
+	Vector3 playButtonPos = Vector3(0.0f, 50.0f, 2.0f);
+	Vector3 exitButtonPos = Vector3(0.0f, -50.0f, 2.0f);
+	Vector3 playButtonTextScale = Vector3(30.0f, 30.0f, 1.0f);
 	Vector3 playButtonBGScale = Vector3(200.0f, 60.0f, 1.0f);
 	Color playEnterColor = Color(1, 1, 1);
 	Color playLeaveColor = Color(0, 0, 0);
@@ -60,6 +69,16 @@ void CMenuState::Init()
 										playLeaveColor,
 										true);
 
+	exitButton = Create::Button2DObject("text",
+										"menuButton",
+										exitButtonPos,
+										"EXIT",
+										playButtonTextScale,
+										playButtonBGScale,
+										playEnterColor,
+										playLeaveColor,
+										true);
+
 	MeshBuilder::GetInstance()->GenerateQuad("cursor", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("cursor")->textureID = LoadTGA("Image//cursor.tga");
 	mouseCursor = Create::Sprite2DObject("cursor", Vector3(0, 0, 0), Vector3(30, 60, 1), true);
@@ -67,16 +86,13 @@ void CMenuState::Init()
 
 	cout << "CMenuState loaded\n" << endl;
 }
+
 void CMenuState::Update(double dt)
 {
-	/*
-	if (KeyboardController::GetInstance()->IsKeyReleased(VK_SPACE))
+	if (CLuaManager::GetInstance()->updateNeeded)
 	{
-		cout << "Loading CMenuState" << endl;
-		SceneManager::GetInstance()->SetActiveScene("GameState");
+		MeshBuilder::GetInstance()->GetMesh("MENUSTATE_BKGROUND")->textureID = LoadTGA(background.c_str());
 	}
-	*/
-
 	// Update the mouse position
 	MouseController::GetInstance()->GetMousePosition(mousePos.x, mousePos.y);
 	mousePos.x -= Application::GetInstance().GetWindowWidth()*0.5f;
@@ -88,12 +104,18 @@ void CMenuState::Update(double dt)
 
 	// Update the playButton
 	playButton->Update(dt);
+	exitButton->Update(dt);
 
 	// Check if the playButton was clicked
 	if (playButton->IsClickedOn())
 	{
 		cout << "Loading GameState..." << endl;
 		SceneManager::GetInstance()->SetActiveScene("GameState");
+	}
+	if (exitButton->IsClickedOn())
+	{
+		cout << "Exitting Programme" << endl;
+		Application::run = false;
 	}
 }
 
@@ -138,6 +160,7 @@ void CMenuState::Exit()
 	// Remove the entity from EntityManager
 	EntityManager::GetInstance()->RemoveEntity(MenuStateBackground);
 	EntityManager::GetInstance()->RemoveEntity(playButton);
+	EntityManager::GetInstance()->RemoveEntity(exitButton);
 
 	// Remove the meshes which are specific to CMenuState
 	MeshBuilder::GetInstance()->RemoveMesh("MENUSTATE_BKGROUND");

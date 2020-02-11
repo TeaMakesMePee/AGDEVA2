@@ -5,6 +5,13 @@
 
 void CLuaManager::EditEdittables()
 {
+	string temp = "Image//DM2240.lua";
+	if (luaL_loadfile(pLuaState, temp.c_str()) || lua_pcall(pLuaState, 0, 0, 0)) {
+		cout << "Error: script not loaded (" << temp << ")" << endl;
+		pLuaState = NULL;
+		return;
+	}
+
 	for (int x = 0; x < edittableList.size(); ++x)
 	{
 		if (edittableList[x]->vartype == "int")
@@ -489,7 +496,7 @@ void CLuaManager::CheckIfLuaFileWasEdited()
 	if (file != string2)
 	{
 		file = string2;
-		//updateNeeded = true;
+		updateNeeded = true;
 		EditEdittables();
 	}
 }

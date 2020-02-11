@@ -106,7 +106,7 @@ void CButtonEntity::Update(const double _dt)
 	mousePos.y -= Application::GetInstance().GetWindowHeight()*0.5f;
 
 	// Check if the mouse position is within this ButtonEntity
-	if (IsWithinButtonRegion(position.x, position.y,
+	if (IsWithinButtonRegion(v3Position.x, v3Position.y,
 		GetBackgroundScale().x, GetBackgroundScale().y,
 		mousePos.x, mousePos.y,
 		1, 1))

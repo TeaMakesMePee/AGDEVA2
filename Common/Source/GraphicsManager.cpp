@@ -312,12 +312,12 @@ void GraphicsManager::UpdateLights(double _dt)
 
 void GraphicsManager::UpdateLightUniforms()
 {
-	std::map<std::string, LightBase*>::iterator it, end;
-	end = lightMap.end();
-	for (it = lightMap.begin(); it != end; ++it)
-	{
-		it->second->UpdateUniforms();
-	}
+	//std::map<std::string, LightBase*>::iterator it, end;
+	//end = lightMap.end();
+	//for (it = lightMap.begin(); it != end; ++it)
+	//{
+	//	it->second->UpdateUniforms();
+	//}
 }
 
 void GraphicsManager::UpdateTexture(int _slot, int _textureValue)

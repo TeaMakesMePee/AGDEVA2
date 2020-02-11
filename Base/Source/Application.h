@@ -29,6 +29,8 @@ public:
 
 	int GetWindowHeight();
 	int GetWindowWidth();
+
+	static bool run;
 	
 private:
 	Application();
