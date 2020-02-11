@@ -604,6 +604,7 @@ void SceneText::Update(double dt)
 			CLuaManager::GetInstance()->set<float>("Highscore.scores.third", (float)elapsedTime, false);
 		}
 		Application::run = false;
+		//SceneManager::GetInstance()->SetActiveScene("HighScore");
 	}
 	else
 	{

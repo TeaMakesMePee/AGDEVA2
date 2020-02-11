@@ -2,10 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <stdarg.h>
+#include "SceneManager.h"
 
 void CLuaManager::EditEdittables()
 {
 	string temp = "Image//DM2240.lua";
+	
 	if (luaL_loadfile(pLuaState, temp.c_str()) || lua_pcall(pLuaState, 0, 0, 0)) {
 		cout << "Error: script not loaded (" << temp << ")" << endl;
 		pLuaState = NULL;
