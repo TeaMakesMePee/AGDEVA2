@@ -68,3 +68,23 @@ function GetMinMax(...)
   avgValue = avgValue / numValues
   return minValue, maxValue, avgValue, numValues
 end
+
+function AIDecision(x1,y1,z1,x2,y2,z2,health)
+  --Calculate distance squared
+  local lengthsquared = (x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1) + (z2 - z1)*(z2 - z1)
+  local length = math.sqrt (lengthsquared)
+  local reqDist = 100
+  local reqHealth = 75
+  local chase = "chase"
+  local heal = "heal"
+  local waypoint = "waypoint"
+
+  if health < reqHealth then
+	return heal
+  elseif length < reqDist then
+	return chase
+  elseif length > reqDist then
+	return waypoint
+  end
+
+end

@@ -48,13 +48,13 @@ void CHighscoreState::Init()
 		tObj[i] = Create::Text2DObject("text", Vector3(-180, 150 - i * 40, 3.0f), "", Vector3(fontSize, fontSize, fontSize), Color(1.0f, 0.0f, 0.0f));
 	}
 
-	string x = "1: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.first"));
+	string x = "1: " + std::to_string(CLuaManager::GetInstance()->get<int>("h1"));
 	tObj[0]->SetText(x);
 
-	x = "3: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.third"));
+	x = "3: " + std::to_string(CLuaManager::GetInstance()->get<int>("h3"));
 	tObj[2]->SetText(x);
 
-	x = "2: " + std::to_string(CLuaManager::GetInstance()->get<int>("Highscore.scores.second"));
+	x = "2: " + std::to_string(CLuaManager::GetInstance()->get<int>("h2"));
 	tObj[1]->SetText(x);
 
 	Vector3 exitButtonPos = Vector3(0.0, -250.0, 2.0);

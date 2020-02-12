@@ -8,11 +8,19 @@ void CLuaManager::EditEdittables()
 {
 	string temp = "Image//DM2240.lua";
 	
-	if (luaL_loadfile(pLuaState, temp.c_str()) || lua_pcall(pLuaState, 0, 0, 0)) {
-		cout << "Error: script not loaded (" << temp << ")" << endl;
-		pLuaState = NULL;
+	//if (luaL_loadfile(pLuaState, temp.c_str()) || lua_pcall(pLuaState, 0, 0, 0)) {
+	//	cout << "Error: script not loaded (" << temp << ")" << endl;
+	//	pLuaState = NULL;
+	//	return;
+	//}
+
+	// CLuaManager::GetInstance()->();
+	if (CLuaManager::GetInstance()->Init("Image//DM2240.lua", "Image//DM2240_LuaFunctions.lua", "Image//errorLookup.lua", true) == false)
+	{
+		cout << "Unable to initialise the Lua system. Quitting the program now." << endl;
 		return;
 	}
+
 
 	for (int x = 0; x < edittableList.size(); ++x)
 	{
@@ -365,6 +373,38 @@ float CLuaManager::getDistanceSquareValue(const char * variableName, Vector3 sou
 	return distanceSquare;
 }
 
+string CLuaManager::AIDecision(const char * variableName, Vector3 source, Vector3 destination, float health)
+{
+	if (!pWriteLuaState) {
+		printError(variableName, "Script is not loaded");
+		return "eror";
+	}
+
+	lua_getglobal(pWriteLuaState, variableName);
+	lua_pushnumber(pWriteLuaState, source.x);
+	lua_pushnumber(pWriteLuaState, source.y);
+	lua_pushnumber(pWriteLuaState, source.z);
+	lua_pushnumber(pWriteLuaState, destination.x);
+	lua_pushnumber(pWriteLuaState, destination.y);
+	lua_pushnumber(pWriteLuaState, destination.z);
+	lua_pushnumber(pWriteLuaState, health);
+
+	// Do a Lua call with debugging information returned.
+	string distanceSquare = "ok";
+	if (lua_pcall(pWriteLuaState, 7, 1, 0) != 0)
+	{
+		std::cout << "Unable to call " << variableName << " : " << std::endl;
+		std::cout << lua_tostring(pWriteLuaState, -1) << std::endl;
+	}
+	else
+		distanceSquare = lua_tostring(pWriteLuaState, -1);
+
+	// Clean the stack
+	clean();
+
+	return distanceSquare;
+}
+
 bool CLuaManager::getVariableValues(const char * variableName, int & minValue, int & maxValue, int & avgValue, int & numValues, const int varCount, ...)
 {
 	lua_getglobal(pWriteLuaState, variableName);
@@ -455,7 +495,7 @@ bool CLuaManager::lua_gettostack(const string& variableName)
 	}
 	else
 	{
-		lua_getfield(pLuaState, -1, var.c_str());
+ 		lua_getfield(pLuaState, -1, var.c_str());
 	}
 	// If the variable is not found...
 	if (lua_isnil(pLuaState, -1))

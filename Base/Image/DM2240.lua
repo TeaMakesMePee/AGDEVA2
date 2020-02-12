@@ -42,7 +42,7 @@ PlayerInfo = {
 --XX
 xx = {
 	dd = {
-		a = 0, b = 0, c = 10
+		a = 0, b = 0, c = 100
 	},
 }
 
@@ -98,9 +98,12 @@ Pistol = {
 }
 
 Laser = {
-		magRounds = 5,
 		maxMagRounds = 5,
 		totalRounds = 10,
 		maxTotalRounds = 10,
 		timeBetweenShots = 0.1667
 }
+
+h1 = 53
+h2 = 63
+h3 = 9999

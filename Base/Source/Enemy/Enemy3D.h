@@ -29,12 +29,13 @@ protected:
 	CWaypointManager cWaypointManager;
 
 	CPlayerInfo* player;
+	float health;
 
 public:
 	CEnemy3D(Mesh* _modelMesh);
 	virtual ~CEnemy3D();
 
-	void Init(CPlayerInfo *player);
+	void Init(CPlayerInfo *player, float health);
 	// Reset this player instance to default
 	void Reset(void);
 

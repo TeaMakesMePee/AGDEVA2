@@ -27,6 +27,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 bool Application::run = true;
+bool Application::update = true;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -264,7 +265,8 @@ void Application::Run()
 		dElapsedTime = m_timer.getElapsedTime();
 		// Update the FPS counter
 		CFPSCounter::GetInstance()->Update(dElapsedTime);
-		CLuaManager::GetInstance()->CheckIfLuaFileWasEdited();
+		if (update)
+			CLuaManager::GetInstance()->CheckIfLuaFileWasEdited();
 		SceneManager::GetInstance()->Update(dElapsedTime);
 		SceneManager::GetInstance()->Render();
 

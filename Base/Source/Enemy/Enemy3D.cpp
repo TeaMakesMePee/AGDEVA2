@@ -27,10 +27,10 @@ CEnemy3D::~CEnemy3D()
 	cWaypointManager.Destroy();
 }
 
-void CEnemy3D::Init(CPlayerInfo* player)
+void CEnemy3D::Init(CPlayerInfo* player, float health)
 {
 	this->player = player;
-
+	this->health = health;
 	destinationPosition.Set(0.f, 0.0f, 10.0f);
 
 	// Set speed
@@ -184,18 +184,31 @@ double CEnemy3D::GetAcceleration(void) const
 // Update
 void CEnemy3D::Update(double dt)
 {
-	if ((player->GetPos() - position).Length() < 100.f)
+	string state = CLuaManager::GetInstance()->AIDecision("AIDecision",
+		player->GetPos(),
+		position, health);
+
+	if (state == "chase")
 	{
 		std::cout << "Chasing" << std::endl;
 		Vector3 movementDirection = (player->GetPos() - position).Normalized();
 		position += movementDirection * (float)m_dSpeed * (float)dt;
 	}
-	else
+	else if (state == "waypoint")
 	{
 		std::cout << "Waypoint" << std::endl;
 		Vector3 movementDirection = (destinationPosition - position).Normalized();
 		position += movementDirection * (float)m_dSpeed * (float)dt;
+		position.y = 0.f;
 	}
+	else if (state == "heal")
+	{
+		std::cout << "Heal: " << health << std::endl;
+		this->health += 10 * dt;
+		Vector3 movementDirection = (player->GetPos() - position).Normalized();
+		position += -movementDirection * (float)m_dSpeed * (float)dt;
+	}
+
 	// Constrain the position
 	Constrain();
 
@@ -266,7 +279,13 @@ void CEnemy3D::Render(void)
 	}
 	else
 		RenderHelper::RenderMesh(modelMesh);
-	//modelStack.PopMatrix();
+
+	
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(position.x, position.y, position.z);
+	modelStack.Scale(scale.x, scale.y, scale.z);
+	modelStack.PopMatrix();
 }
 
 CEnemy3D* Create::Enemy3D(const std::string& _meshName,

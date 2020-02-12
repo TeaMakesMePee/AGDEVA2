@@ -136,6 +136,7 @@ void CMenuState::Update(double dt)
 	{
 		cout << "Loading GameState..." << endl;
 		SceneManager::GetInstance()->SetActiveScene("GameState");
+		Application::update = false;
 	}
 	if (exitButton->IsClickedOn())
 	{

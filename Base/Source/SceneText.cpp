@@ -277,7 +277,7 @@ void SceneText::CreateEntities(void)
 	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy1"), Vector3(2.5f, 2.5f, 2.5f), false);
 	//anEnemy3D = Create::Enemy3D("cube2", Vector3(50, 0, 50), Vector3(2.5f, 2.5f, 2.5f), false);
 	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
-	anEnemy3D->Init(playerInfo);
+	anEnemy3D->Init(playerInfo, 0.f);
 	anEnemy3D->SetSpeed(20.0f);
 	anEnemy3D->SetCollider(true);
 	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
@@ -291,7 +291,7 @@ void SceneText::CreateEntities(void)
 	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy2"), Vector3(2.5f, 2.5f, 2.5f), false);
 	//anEnemy3D = Create::Enemy3D("cube2", Vector3(-50, 0, -50), Vector3(2.5f, 2.5f, 2.5f), false);
 	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
-	anEnemy3D->Init(playerInfo);
+	anEnemy3D->Init(playerInfo, 0.f);
 	anEnemy3D->SetSpeed(20.0f);
 	anEnemy3D->SetCollider(true);
 	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
@@ -305,7 +305,7 @@ void SceneText::CreateEntities(void)
 	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy3"), Vector3(2.5f, 2.5f, 2.5f), false);
 	//anEnemy3D = Create::Enemy3D("cube2", Vector3(-50, 0, 50), Vector3(2.5f, 2.5f, 2.5f), false);
 	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
-	anEnemy3D->Init(playerInfo);
+	anEnemy3D->Init(playerInfo, 0.f);
 	anEnemy3D->SetSpeed(20.0f);
 	anEnemy3D->SetCollider(true);
 	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
@@ -319,7 +319,7 @@ void SceneText::CreateEntities(void)
 	anEnemy3D = Create::Enemy3D("cube2", CLuaManager::GetInstance()->get<Vector3>("EnemyPos.enemy4"), Vector3(2.5f, 2.5f, 2.5f), false);
 	//anEnemy3D = Create::Enemy3D("cube2", Vector3(50, 0, -50), Vector3(2.5f, 2.5f, 2.5f), false);
 	anEnemy3D->InitLOD("sphere2", "sphere", "cube2");
-	anEnemy3D->Init(playerInfo);
+	anEnemy3D->Init(playerInfo, 0.f);
 	anEnemy3D->SetSpeed(20.0f);
 	anEnemy3D->SetCollider(true);
 	anEnemy3D->SetAABB(Vector3(0.5f * 2.5f, 0.5f * 2.5f, 0.5f * 2.5f), Vector3(-0.5f * 2.5f, -0.5f * 2.5f, -0.5f * 2.5f));
@@ -442,6 +442,10 @@ void SceneText::Init()
 	playerInfo->AttachCamera(&camera);
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
+	MeshBuilder::GetInstance()->GenerateQuad("red", Color(1, 0, 0), 1.f);
+
+	MeshBuilder::GetInstance()->GenerateQuad("green", Color(1, 0, 0), 1.f);
+
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateAxes("reference");
 	MeshBuilder::GetInstance()->GenerateCrossHair("crosshair");
@@ -476,9 +480,9 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kDiffuse.Set(0.99f, 0.99f, 0.99f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kSpecular.Set(0.f, 0.f, 0.f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRASS_DARKGREEN", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("GRASS_DARKGREEN")->textureID = LoadTGA("Image//grass_darkgreen.tga");
+	MeshBuilder::GetInstance()->GetMesh("GRASS_DARKGREEN")->textureID = LoadTGA("Image//dirt1.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("GEO_GRASS_LIGHTGREEN", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("GEO_GRASS_LIGHTGREEN")->textureID = LoadTGA("Image//grass_lightgreen.tga");
+	MeshBuilder::GetInstance()->GetMesh("GEO_GRASS_LIGHTGREEN")->textureID = LoadTGA("Image//dirt2.tga");
 
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_FRONT", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_BACK", Color(1, 1, 1), 1.f);
@@ -486,12 +490,12 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_RIGHT", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_TOP", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_BOTTOM", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_FRONT")->textureID = LoadTGA("Image//SkyBox//skybox_front.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BACK")->textureID = LoadTGA("Image//SkyBox//skybox_back.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_LEFT")->textureID = LoadTGA("Image//SkyBox//skybox_left.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_RIGHT")->textureID = LoadTGA("Image//SkyBox//skybox_right.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//SkyBox//skybox_top.tga");
-	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//SkyBox//skybox_bottom.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_FRONT")->textureID = LoadTGA("Image//SkyBox//darksky.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BACK")->textureID = LoadTGA("Image//SkyBox//darksky.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_LEFT")->textureID = LoadTGA("Image//SkyBox//darksky.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_RIGHT")->textureID = LoadTGA("Image//SkyBox//darksky.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//SkyBox//darksky.tga");
+	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//SkyBox//darksky.tga");
 
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 0, 0), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH2", Color(1, 1, 0), 1.f);
@@ -560,7 +564,7 @@ void SceneText::Init()
 	// Minimap
 	theMinimap = Create::Minimap(false);
 	theMinimap->SetBackground(MeshBuilder::GetInstance()->GenerateQuad("MINIMAP", Color(1, 1, 1), 1.f));
-	theMinimap->GetBackground()->textureID = LoadTGA("Image//minimap_square.tga");
+	theMinimap->GetBackground()->textureID = LoadTGA("Image//dirt1.tga");
 	theMinimap->SetBorder(MeshBuilder::GetInstance()->GenerateCircle("MINIMAPBORDER", Color(1, 1, 1), 1.05f));
 	theMinimap->SetAvatar(MeshBuilder::GetInstance()->GenerateQuad("MINIMAPAVATAR", Color(1, 1, 0), 0.25f));
 	theMinimap->GetAvatar()->textureID = LoadTGA("Image//Avatar.tga");
@@ -588,23 +592,21 @@ void SceneText::Init()
 
 void SceneText::Update(double dt)
 {
-	std::cout << "this: " << CEnemy3D::count << std::endl;
 	if (CEnemy3D::count == 0)
 	{
-		if ((float)elapsedTime < CLuaManager::GetInstance()->get<float>("Highscore.scores.first"))
+		if ((int)(elapsedTime * 10) < CLuaManager::GetInstance()->get<int>("h1"))
 		{
-			CLuaManager::GetInstance()->set<float>("Highscore.scores.first", (float)elapsedTime, false);
+			CLuaManager::GetInstance()->set<int>("h1", (int)(elapsedTime * 10), false, true);
 		}
-		else if ((float)elapsedTime < CLuaManager::GetInstance()->get<float>("Highscore.scores.second"))
+		else if ((int)(elapsedTime * 10) < CLuaManager::GetInstance()->get<int>("h2"))
 		{
-			CLuaManager::GetInstance()->set<float>("Highscore.scores.second", (float)elapsedTime, false);
+			CLuaManager::GetInstance()->set<int>("h2", (int)(elapsedTime * 10), false, true);
 		}
-		else if ((float)elapsedTime < CLuaManager::GetInstance()->get<float>("Highscore.scores.third"))
+		else if ((int)(elapsedTime * 10) < CLuaManager::GetInstance()->get<int>("h3"))
 		{
-			CLuaManager::GetInstance()->set<float>("Highscore.scores.third", (float)elapsedTime, false);
+			CLuaManager::GetInstance()->set<int>("h3", (int)(elapsedTime * 10), false, true);
 		}
 		Application::run = false;
-		//SceneManager::GetInstance()->SetActiveScene("HighScore");
 	}
 	else
 	{

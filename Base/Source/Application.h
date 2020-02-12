@@ -30,7 +30,7 @@ public:
 	int GetWindowHeight();
 	int GetWindowWidth();
 
-	static bool run;
+	static bool run, update;
 	
 private:
 	Application();
